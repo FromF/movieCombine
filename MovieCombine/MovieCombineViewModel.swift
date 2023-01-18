@@ -21,9 +21,11 @@ class MovieCombineViewModel: NSObject, ObservableObject {
         }
     }
     
-    func executeCombine() {
-        isProgress = true
-        combineMovieModel.combine(importMovies: combineFileList)
-        isProgress = false
+    @MainActor func executeCombine() {
+        Task {
+            isProgress = true
+            _ = try? await combineMovieModel.combine(importMovies: combineFileList)
+            isProgress = false
+        }
     }
 }
