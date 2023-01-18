@@ -24,7 +24,11 @@ class MovieCombineViewModel: NSObject, ObservableObject {
     @MainActor func executeCombine() {
         Task {
             isProgress = true
-            _ = try? await combineMovieModel.combine(importMovies: combineFileList)
+            do {
+                try await combineMovieModel.combine(importMovies: combineFileList)
+            } catch {
+                print("\(#fileID) \(#function) \(#line) failed \(error.localizedDescription)")
+            }
             isProgress = false
         }
     }

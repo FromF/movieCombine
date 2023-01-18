@@ -11,7 +11,11 @@ import AVFoundation
 class CombineMovieModel: NSObject {
     private var player: AVPlayer?
     
-    func combine(importMovies: [URL]) async throws -> Bool {
+    enum CombineMovieError: Error {
+        case exportError
+    }
+
+    func combine(importMovies: [URL]) async throws {
         return try await withCheckedThrowingContinuation { continuation in
             // オーディオトラック有無をチェック
             var enableAudio = true
@@ -80,12 +84,12 @@ class CombineMovieModel: NSObject {
                         continuation.resume(throwing: error)
                     } else {
                         print("\(#fileID) \(#function) \(#line) success")
-                        continuation.resume(returning: true)
+                        continuation.resume()
                     }
                 })
             } else {
                 print("\(#fileID) \(#function) \(#line) failed")
-                continuation.resume(returning: false)
+                continuation.resume(throwing: CombineMovieError.exportError)
             }
         }
     }
