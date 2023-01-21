@@ -31,7 +31,7 @@ class CombineMovieModel: NSObject {
             var audioTrack: AVMutableCompositionTrack?
             if enableAudio {
                 print("\(#fileID) \(#function) \(#line) enable Audio Track")
-                let audioTrack = movie.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+                audioTrack = movie.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
             } else {
                 print("\(#fileID) \(#function) \(#line) disable Audio Track")
             }
